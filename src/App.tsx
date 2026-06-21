@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { ChevronRightIcon, CopyIcon, PencilIcon, QrCodeIcon, SendIcon, XIcon } from 'lucide-react';
+import { CheckIcon, ChevronRightIcon, CopyIcon, PencilIcon, QrCodeIcon, SendIcon, XIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -535,21 +534,30 @@ function QrBottomSheet({
 
           <div className="h-24 overflow-hidden">
             {qrTarget === 'share' ? (
-              <Field orientation="horizontal" className="h-full !items-center rounded-3xl bg-muted/60 p-3">
-                <Checkbox
-                  id="clean-url"
-                  checked={cleanQrUrlAfterRead}
-                  onCheckedChange={checked => onChangeCleanQrUrlAfterRead(checked === true)}
-                />
-                <FieldContent className="gap-0.5">
-                  <FieldLabel htmlFor="clean-url">열고 나면 주소창에서 정보 숨기기</FieldLabel>
-                  <FieldDescription>상대가 페이지를 열면 URL의 은행, 계좌번호, 예금주 정보를 바로 지웁니다.</FieldDescription>
-                </FieldContent>
-              </Field>
+              <button
+                className="flex h-full w-full items-center justify-center gap-3 rounded-3xl bg-muted/60 p-4 text-center transition-colors outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/30"
+                type="button"
+                role="checkbox"
+                aria-checked={cleanQrUrlAfterRead}
+                onClick={() => onChangeCleanQrUrlAfterRead(!cleanQrUrlAfterRead)}
+              >
+                <span
+                  className={cn(
+                    'grid size-7 shrink-0 place-items-center rounded-lg transition-colors',
+                    cleanQrUrlAfterRead ? 'bg-primary text-primary-foreground' : 'bg-input/90 text-transparent',
+                  )}
+                  aria-hidden="true"
+                >
+                  <CheckIcon className="size-4" />
+                </span>
+                <span className="text-base leading-snug font-bold text-foreground">QR코드 열고 나면 주소창에서 정보 숨기기</span>
+              </button>
             ) : (
-              <div className="flex h-full flex-col justify-center rounded-3xl bg-muted/60 p-4">
-                <p className="text-sm font-semibold text-foreground">토스 앱으로 바로 열리는 QR입니다.</p>
-                <p className="mt-1 text-sm leading-normal text-muted-foreground">QR을 스캔하면 토스 송금 화면으로 이동합니다.</p>
+              <div className="flex h-full flex-col items-center justify-center rounded-3xl bg-muted/60 p-4 text-center">
+                <p className="text-base font-extrabold text-foreground">토스 앱으로 바로 열리는 QR입니다.</p>
+                <p className="mt-2 text-base leading-normal font-semibold text-muted-foreground">
+                  QR을 스캔하면 토스 송금 화면으로 이동합니다.
+                </p>
               </div>
             )}
           </div>
