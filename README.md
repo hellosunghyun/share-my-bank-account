@@ -53,9 +53,3 @@ npm run deploy
 ```
 
 `vite.config.ts`의 `base`를 `./`로 설정해서 사용자/프로젝트 GitHub Pages 경로 모두에서 정적 asset을 상대 경로로 불러옵니다.
-
-## 출처
-
-- TDS Mobile: https://tossmini-docs.toss.im/tds-mobile/start/
-- 은행 코드: https://docs.tosspayments.com/codes/org-codes
-- 은행 심볼: 대한민국 은행 로고 모음 Korean Bank Logo (Community)
