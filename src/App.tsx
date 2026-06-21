@@ -113,9 +113,9 @@ function App() {
   }
 
   return (
-    <main className="min-h-dvh bg-background text-foreground sm:grid sm:place-items-center sm:p-6">
+    <main className="flex min-h-dvh justify-center bg-background text-foreground">
       <section
-        className="mx-auto flex min-h-dvh w-full max-w-[440px] flex-col bg-card px-5 pt-6 pb-4 shadow-[0_18px_60px_rgb(15_23_42/0.12)] sm:min-h-[760px] sm:rounded-4xl sm:ring-1 sm:ring-border"
+        className="flex min-h-dvh w-full max-w-[440px] flex-col bg-card px-5 pt-6 pb-4 shadow-[0_18px_60px_rgb(15_23_42/0.12)] sm:ring-x sm:ring-border"
         aria-label="계좌번호 복사 도구"
       >
         {mode === 'pay' && complete ? (
