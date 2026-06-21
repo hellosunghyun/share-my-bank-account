@@ -239,7 +239,7 @@ function PaymentCard({
       <CardContent className="flex flex-1 flex-col gap-6 px-0">
         <section className="flex min-h-44 flex-col justify-center gap-3">
           <p className="text-sm font-semibold text-muted-foreground">입금 계좌</p>
-          <strong className="break-words text-4xl leading-tight font-extrabold tabular-nums text-foreground">
+          <strong className="break-words text-3xl leading-tight font-extrabold tabular-nums text-foreground">
             {info.account}
           </strong>
           <span className="text-base font-semibold text-muted-foreground">예금주 {info.holder}</span>
@@ -661,7 +661,7 @@ function BankHeader({ bank }: { bank?: Bank }) {
           <span className="text-sm font-semibold text-muted-foreground">은행</span>
           {bank?.officialCode != null ? <Badge variant="secondary">코드 {bank.officialCode}</Badge> : null}
         </div>
-        <CardTitle className="truncate text-3xl font-extrabold tracking-normal">{bankName !== '' ? bankName : '은행 선택 필요'}</CardTitle>
+        <CardTitle className="truncate text-2xl font-extrabold tracking-normal">{bankName !== '' ? bankName : '은행 선택 필요'}</CardTitle>
       </div>
     </div>
   );
