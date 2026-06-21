@@ -50,8 +50,7 @@ npm run build
 
 ## GitHub Pages 배포
 
-```bash
-npm run deploy
-```
+`main` 브랜치에 푸시하면 GitHub Actions가 자동으로 빌드하고 GitHub Pages에 배포합니다.
+필요하면 GitHub Actions 탭에서 `Deploy GitHub Pages` 워크플로우를 수동 실행할 수도 있습니다.
 
 `vite.config.ts`의 `base`를 `./`로 설정해서 사용자/프로젝트 GitHub Pages 경로 모두에서 정적 asset을 상대 경로로 불러옵니다.
