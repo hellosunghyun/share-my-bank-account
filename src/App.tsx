@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { CheckIcon, ChevronRightIcon, CopyIcon, PencilIcon, QrCodeIcon, SendIcon, XIcon } from 'lucide-react';
+import { CheckIcon, ChevronRightIcon, CopyIcon, PencilIcon, PlusIcon, QrCodeIcon, SendIcon, XIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,6 +21,7 @@ import {
   normalizeAccountForCopy,
   normalizeAmount,
   readPaymentInfo,
+  shouldAllowPaymentEdit,
   shouldCleanUrlAfterRead,
   type PaymentInfo,
 } from './lib/paymentUrl';
@@ -33,11 +34,13 @@ type ToastState = {
 
 type ScreenMode = 'pay' | 'builder';
 type QrTarget = 'share' | 'toss';
+type BuilderIntent = 'create' | 'edit';
 
 const initialInfo = readPaymentInfo(window.location.search);
 const initialComplete = isPaymentInfoComplete(initialInfo);
 const defaultPaymentInfo = getDefaultPaymentInfo();
 const shouldCleanInitialUrl = initialComplete && shouldCleanUrlAfterRead(window.location.search);
+const initialCanEditPaymentInfo = !initialComplete || shouldAllowPaymentEdit(window.location.search);
 const initialFormInfo = initialComplete
   ? {
       ...initialInfo,
@@ -62,6 +65,8 @@ function App() {
   const [qrTarget, setQrTarget] = useState<QrTarget>('share');
   const [cleanQrUrlAfterRead, setCleanQrUrlAfterRead] = useState(false);
   const [bankSheetOpen, setBankSheetOpen] = useState(false);
+  const [canEditPaymentInfo, setCanEditPaymentInfo] = useState(initialCanEditPaymentInfo);
+  const [builderIntent, setBuilderIntent] = useState<BuilderIntent>('create');
 
   const shareUrl = useMemo(() => createShareUrl(form, window.location.href), [form]);
   const cleanShareUrl = useMemo(() => createShareUrl(form, window.location.href, { cleanUrlAfterRead: true }), [form]);
@@ -108,20 +113,36 @@ function App() {
     }
 
     window.history.replaceState(null, '', shareUrl);
+    setCanEditPaymentInfo(true);
     setMode('pay');
+  }
+
+  function createOwnPaymentInfo() {
+    setForm(getDefaultPaymentInfo());
+    setCanEditPaymentInfo(true);
+    setQrOpen(false);
+    setBankSheetOpen(false);
+    setBuilderIntent('create');
+    window.history.replaceState(null, '', createCleanPageUrl(window.location.href));
+    setMode('builder');
   }
 
   return (
     <main className="flex min-h-dvh justify-center bg-background text-foreground">
       <section
-        className="flex min-h-dvh w-full max-w-[440px] flex-col bg-card px-5 pt-6 pb-4 shadow-[0_18px_60px_rgb(15_23_42/0.12)] sm:ring-x sm:ring-border"
+        className="app-safe-surface flex min-h-dvh w-full max-w-[440px] flex-col bg-card px-5 shadow-[0_18px_60px_rgb(15_23_42/0.12)] sm:ring-x sm:ring-border"
         aria-label="계좌번호 복사 도구"
       >
         {mode === 'pay' && complete ? (
           <PaymentCard
             info={form}
+            canEdit={canEditPaymentInfo}
             tossTransferUrl={tossTransferUrl}
-            onEdit={() => setMode('builder')}
+            onEdit={() => {
+              setBuilderIntent('edit');
+              setMode('builder');
+            }}
+            onCreateOwn={createOwnPaymentInfo}
             onCopySummary={() => copy(createTransferText(form), '송금 정보가 복사됐습니다')}
             onOpenQr={() => {
               setQrTarget('share');
@@ -131,6 +152,7 @@ function App() {
         ) : (
           <BuilderCard
             info={form}
+            title={builderIntent === 'edit' ? '계좌 정보 수정' : '내 송금정보 입력'}
             complete={complete}
             onChange={updateForm}
             onOpenBankSheet={() => setBankSheetOpen(true)}
@@ -175,14 +197,18 @@ function App() {
 
 function PaymentCard({
   info,
+  canEdit,
   tossTransferUrl,
   onEdit,
+  onCreateOwn,
   onCopySummary,
   onOpenQr,
 }: {
   info: PaymentInfo;
+  canEdit: boolean;
   tossTransferUrl: string;
   onEdit: () => void;
+  onCreateOwn: () => void;
   onCopySummary: () => void;
   onOpenQr: () => void;
 }) {
@@ -196,10 +222,17 @@ function PaymentCard({
       <CardHeader className="px-0 pt-0">
         <div className="flex items-start justify-between gap-3">
           <BankHeader bank={info.bank} />
-          <Button className="shrink-0" variant="ghost" size="sm" type="button" onClick={onEdit}>
-            <PencilIcon data-icon="inline-start" />
-            수정
-          </Button>
+          {canEdit ? (
+            <Button className="shrink-0" variant="ghost" size="sm" type="button" onClick={onEdit}>
+              <PencilIcon data-icon="inline-start" />
+              수정
+            </Button>
+          ) : (
+            <Button className="shrink-0" variant="ghost" size="sm" type="button" onClick={onCreateOwn}>
+              <PlusIcon data-icon="inline-start" />
+              내 송금정보
+            </Button>
+          )}
         </div>
       </CardHeader>
 
@@ -243,12 +276,14 @@ function PaymentCard({
 
 function BuilderCard({
   info,
+  title,
   complete,
   onChange,
   onOpenBankSheet,
   onOpenPay,
 }: {
   info: PaymentInfo;
+  title: string;
   complete: boolean;
   onChange: (next: Partial<PaymentInfo>) => void;
   onOpenBankSheet: () => void;
@@ -260,7 +295,7 @@ function BuilderCard({
   return (
     <Card className="mt-0 flex-1 overflow-visible border-0 bg-transparent py-0 shadow-none ring-0">
       <CardHeader className="px-0 pt-0">
-        <CardTitle className="text-3xl font-extrabold tracking-normal">계좌 정보 수정</CardTitle>
+        <CardTitle className="text-3xl font-extrabold tracking-normal">{title}</CardTitle>
         <CardDescription>입력한 정보는 저장하지 않고 URL 파라미터에만 담깁니다.</CardDescription>
       </CardHeader>
 

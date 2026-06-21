@@ -52,6 +52,13 @@ export function shouldCleanUrlAfterRead(search: string) {
   return value === '1' || value === 'true';
 }
 
+export function shouldAllowPaymentEdit(search: string) {
+  const params = new URLSearchParams(search);
+  const value = params.get('edit');
+
+  return value === '1' || value === 'true';
+}
+
 export function createCleanPageUrl(currentHref: string) {
   const url = new URL(currentHref);
   url.search = '';

@@ -6,6 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --app-safe-background: #ffffff;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -40,12 +41,13 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   color: var(--foreground);
-  background: var(--background);
+  background: var(--app-safe-background);
   font-family: Pretendard, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .light {
   color-scheme: light;
+  --app-safe-background: #ffffff;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -83,6 +85,7 @@
 
 .dark {
   color-scheme: dark;
+  --app-safe-background: #171717;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -120,6 +123,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
+    --app-safe-background: #171717;
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -208,10 +212,12 @@
   html {
     @apply font-sans;
     color-scheme: light;
+    background-color: var(--app-safe-background);
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: var(--app-safe-background);
     min-width: 320px;
     min-height: 100dvh;
     margin: 0;
@@ -222,5 +228,15 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  #root {
+    min-height: 100dvh;
+    background-color: var(--app-safe-background);
+  }
+
+  .app-safe-surface {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
