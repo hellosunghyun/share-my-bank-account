@@ -302,7 +302,7 @@ function BuilderCard({
         <CardDescription>입력한 정보는 저장하지 않고 URL 파라미터에만 담깁니다.</CardDescription>
       </CardHeader>
 
-      <CardContent className="flex flex-1 flex-col px-0">
+      <CardContent className="builder-card-content flex flex-1 flex-col px-0">
         <FieldGroup className="gap-4">
           <Field>
             <FieldLabel>은행</FieldLabel>
@@ -380,7 +380,7 @@ function BuilderCard({
           />
         </FieldGroup>
 
-        <Button className="mt-auto h-14 w-full text-base font-bold" disabled={!complete} type="button" onClick={onOpenPay}>
+        <Button className="relative z-30 mt-auto h-14 w-full text-base font-bold" disabled={!complete} type="button" onClick={onOpenPay}>
           완료
         </Button>
       </CardContent>
