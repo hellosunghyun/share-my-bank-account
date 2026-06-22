@@ -263,9 +263,19 @@
     mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.15) 18%, rgb(0 0 0 / 0.7) 56%, black);
   }
 
+  .builder-submit-button {
+    margin-top: auto;
+  }
+
+  @media (max-height: 1100px) {
+    .builder-submit-button {
+      margin-top: 3rem;
+    }
+  }
+
   @media (max-height: 820px) {
     .builder-card-content {
-      padding-bottom: 7rem;
+      padding-bottom: 8rem;
     }
 
     .builder-bottom-blur {

@@ -380,7 +380,7 @@ function BuilderCard({
           />
         </FieldGroup>
 
-        <Button className="relative z-30 mt-auto h-14 w-full text-base font-bold" disabled={!complete} type="button" onClick={onOpenPay}>
+        <Button className="builder-submit-button relative z-30 h-14 w-full text-base font-bold" disabled={!complete} type="button" onClick={onOpenPay}>
           완료
         </Button>
       </CardContent>
