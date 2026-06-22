@@ -239,4 +239,33 @@
     padding-top: max(1.5rem, env(safe-area-inset-top));
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
+
+  .builder-bottom-blur {
+    pointer-events: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    z-index: 20;
+    display: none;
+    width: 100%;
+    max-width: 440px;
+    height: clamp(6rem, 18dvh, 10rem);
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--card) 0%, transparent),
+      color-mix(in oklch, var(--card) 72%, transparent) 62%,
+      var(--card)
+    );
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.15) 18%, rgb(0 0 0 / 0.7) 56%, black);
+    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.15) 18%, rgb(0 0 0 / 0.7) 56%, black);
+  }
+
+  @media (max-height: 820px) {
+    .builder-bottom-blur {
+      display: block;
+    }
+  }
 }

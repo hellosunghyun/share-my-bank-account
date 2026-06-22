@@ -150,14 +150,17 @@ function App() {
             }}
           />
         ) : (
-          <BuilderCard
-            info={form}
-            title={builderIntent === 'edit' ? '계좌 정보 수정' : '내 송금정보 입력'}
-            complete={complete}
-            onChange={updateForm}
-            onOpenBankSheet={() => setBankSheetOpen(true)}
-            onOpenPay={openPayScreen}
-          />
+          <>
+            <BuilderCard
+              info={form}
+              title={builderIntent === 'edit' ? '계좌 정보 수정' : '내 송금정보 입력'}
+              complete={complete}
+              onChange={updateForm}
+              onOpenBankSheet={() => setBankSheetOpen(true)}
+              onOpenPay={openPayScreen}
+            />
+            <div className="builder-bottom-blur" aria-hidden="true" />
+          </>
         )}
       </section>
 
