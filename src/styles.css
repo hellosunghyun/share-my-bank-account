@@ -263,19 +263,24 @@
     mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.15) 18%, rgb(0 0 0 / 0.7) 56%, black);
   }
 
-  .builder-submit-button {
-    margin-top: auto;
+  .builder-card-content {
+    padding-bottom: 6.5rem;
   }
 
-  @media (max-height: 1100px) {
-    .builder-submit-button {
-      margin-top: 3rem;
-    }
+  .builder-submit-rail {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    z-index: 30;
+    width: 100%;
+    max-width: 440px;
+    padding: 0 1.25rem max(1rem, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
   }
 
   @media (max-height: 820px) {
     .builder-card-content {
-      padding-bottom: 8rem;
+      padding-bottom: 10rem;
     }
 
     .builder-bottom-blur {
