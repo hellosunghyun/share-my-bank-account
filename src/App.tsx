@@ -87,6 +87,10 @@ function App() {
     return () => colorSchemeQuery.removeEventListener('change', applySystemTheme);
   }, []);
 
+  useEffect(() => {
+    document.title = createDocumentTitle(form);
+  }, [form.holder, form.nickname]);
+
   async function copy(text: string, message: string) {
     try {
       await navigator.clipboard.writeText(text);
@@ -797,6 +801,12 @@ function createTransferText(info: PaymentInfo) {
     .map(part => part.trim());
 
   return parts.join(' ');
+}
+
+function createDocumentTitle(info: PaymentInfo) {
+  const displayName = info.nickname.trim() || info.holder.trim();
+
+  return displayName === '' ? '내 송금정보' : `${displayName}의 계좌정보`;
 }
 
 function fallbackCopy(text: string) {
