@@ -563,7 +563,7 @@ function QrBottomSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="mx-auto w-full max-w-[440px] rounded-t-4xl border-border p-0">
+      <SheetContent side="bottom" className="qr-sheet-content mx-auto w-full max-w-[440px] rounded-t-4xl border-border p-0">
         <SheetHeader className="gap-2 px-5 pt-5 pb-4 text-left">
           <div className="mx-auto mb-2 h-1 w-11 rounded-full bg-muted" />
           <SheetTitle className="text-2xl font-extrabold">QR로 보기</SheetTitle>

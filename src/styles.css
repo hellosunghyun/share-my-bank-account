@@ -278,6 +278,14 @@
     transform: translateX(-50%);
   }
 
+  .qr-sheet-content {
+    max-height: 92vh;
+    max-height: min(92dvh, calc(100dvh - 2rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
   @media (max-height: 820px) {
     .builder-card-content {
       padding-bottom: 10rem;
